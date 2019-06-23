@@ -3,7 +3,7 @@ from django.urls import reverse
 
 class Post(models.Model):
     title = models.CharField(max_length=350)
-    post_text = models.TextField
+    post_text = models.TextField(help_text="Speak your mind: ", null=True, blank=True)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -21,16 +21,16 @@ class Comment(models.Model):
         return f'{self.date_posted} ({self.author})'
 
 class Author(models.Model):
-    author = models.CharField(max_length=20)
+    author_name = models.CharField(max_length=20)
 
     class Meta:
-        ordering = ['author']
+        ordering = ['author_name']
     
     def get_absolute_url(self):
         return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
-        return '{self.author}'
+        return self.author_name
 
 
 
